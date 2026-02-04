@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 2,
   "builds": [
     {
       "src": "index.html",
@@ -7,6 +7,10 @@
     }
   ],
   "routes": [
+    {
+      "src": "/(.*\\.(?:js|css|png|jpg|jpeg|svg|ico|json))",
+      "dest": "/$1"
+    },
     {
       "src": "/(.*)",
       "dest": "/index.html"
