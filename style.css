@@ -112,6 +112,13 @@ button:active {
   color: var(--ink);
 }
 
+.deploy-log {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--muted);
+  font-style: italic;
+}
+
 @media (max-width: 640px) {
   .header {
     flex-direction: column;

@@ -6,6 +6,7 @@ const statusEl = document.querySelector("#status");
 const restartBtn = document.querySelector("#restart");
 const pauseBtn = document.querySelector("#pause");
 const dpad = document.querySelector(".dpad");
+const logRoot = document.querySelector("main") || document.body;
 
 const ctx = canvas.getContext("2d");
 
@@ -16,6 +17,24 @@ const TICK_MS = 120;
 let state = createInitialState({ cols: COLS, rows: ROWS });
 let timer = null;
 let paused = false;
+
+async function logDeployInfo() {
+  try {
+    const resp = await fetch(new URL("deploy-info.json", import.meta.url), {
+      cache: "no-store",
+    });
+    if (!resp.ok) throw new Error(resp.statusText);
+    const info = await resp.json();
+    const msg = `Snake ready — deploy ${info.commit} (${info.message}) @ ${new Date(info.timestamp).toLocaleString()}`;
+    console.info(msg);
+    const node = document.createElement("p");
+    node.className = "deploy-log";
+    node.textContent = msg;
+    logRoot.appendChild(node);
+  } catch (error) {
+    console.info("Snake deployment info unavailable", error);
+  }
+}
 
 function resizeCanvas() {
   const ratio = window.devicePixelRatio || 1;
@@ -134,3 +153,4 @@ dpad.addEventListener("click", handleDpad);
 
 resizeCanvas();
 restart();
+logDeployInfo();
