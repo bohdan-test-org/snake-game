@@ -6,7 +6,12 @@ const statusEl = document.querySelector("#status");
 const restartBtn = document.querySelector("#restart");
 const pauseBtn = document.querySelector("#pause");
 const dpad = document.querySelector(".dpad");
+const leaderboardForm = document.querySelector("#leaderboard-form");
+const leaderboardList = document.querySelector("#leaderboard-list");
+const leaderboardFeedback = document.querySelector("#leaderboard-feedback");
+const nameInput = document.querySelector("#player-name");
 const logRoot = document.querySelector("main") || document.body;
+const API_BASE = "/api";
 
 const ctx = canvas.getContext("2d");
 
@@ -33,6 +38,66 @@ async function logDeployInfo() {
     logRoot.appendChild(node);
   } catch (error) {
     console.info("Snake deployment info unavailable", error);
+  }
+}
+
+function formatLeaderboardEntry(entry, index) {
+  const date = new Date(entry.timestamp);
+  return `${index + 1}. ${entry.name} — ${entry.score} (${date.toLocaleDateString()})`;
+}
+
+function renderLeaderboard(entries = []) {
+  if (!leaderboardList) return;
+  leaderboardList.innerHTML = "";
+  if (!entries.length) {
+    leaderboardList.innerHTML = "<li>No scores yet. Be the first!</li>";
+    return;
+  }
+  entries.forEach((entry, index) => {
+    const item = document.createElement("li");
+    item.textContent = formatLeaderboardEntry(entry, index);
+    leaderboardList.appendChild(item);
+  });
+}
+
+function setLeaderboardFeedback(message) {
+  if (!leaderboardFeedback) return;
+  leaderboardFeedback.textContent = message;
+}
+
+async function fetchLeaderboard() {
+  if (!leaderboardList) return;
+  try {
+    const resp = await fetch(`${API_BASE}/leaderboard`, { cache: "no-store" });
+    if (!resp.ok) throw new Error(resp.statusText);
+    const entries = await resp.json();
+    renderLeaderboard(entries);
+    setLeaderboardFeedback("");
+  } catch (error) {
+    renderLeaderboard([]);
+    setLeaderboardFeedback("Leaderboard unavailable (offline mode).");
+    console.info("Unable to load leaderboard", error);
+  }
+}
+
+async function submitScore(name, score) {
+  if (score <= 0) {
+    setLeaderboardFeedback("Score must be greater than zero.");
+    return;
+  }
+  try {
+    const resp = await fetch(`${API_BASE}/score`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, score }),
+    });
+    if (!resp.ok) throw new Error(resp.statusText);
+    const payload = await resp.json();
+    renderLeaderboard(payload.entries);
+    setLeaderboardFeedback("Score saved! Leaderboard refreshed.");
+  } catch (error) {
+    setLeaderboardFeedback("Unable to save score (server unreachable).");
+    console.info("Leaderboard save failed", error);
   }
 }
 
@@ -154,3 +219,18 @@ dpad.addEventListener("click", handleDpad);
 resizeCanvas();
 restart();
 logDeployInfo();
+fetchLeaderboard();
+
+if (leaderboardForm) {
+  leaderboardForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (!nameInput) return;
+    const name = nameInput.value.trim();
+    if (!name) {
+      setLeaderboardFeedback("Please enter your name.");
+      return;
+    }
+    submitScore(name, state.score);
+    nameInput.value = "";
+  });
+}

@@ -1,9 +1,13 @@
 {
   "name": "snake-game",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "scripts": {
-    "vercel-build": "node scripts/update-deploy-info.mjs"
+    "vercel-build": "node scripts/update-deploy-info.mjs",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
   }
 }

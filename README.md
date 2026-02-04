@@ -4,25 +4,30 @@ A minimal, classic Snake implementation: grid movement, food, growth, score, gam
 
 ## Run
 
-Option 1: open `index.html` directly in a browser.
-
-Option 2 (local dev server):
+Install dependencies, run the backend, and open the app:
 
 ```bash
 cd /Users/dragonpc/AiProjects/snake-game
-python3 -m http.server 5173
+npm install
+npm start
 ```
 
-Then visit `http://localhost:5173`.
+Then open `http://localhost:3000` to play. The Express backend serves the UI and exposes the leaderboard API described below.
 
 ## Controls
 
 - Arrow keys or WASD
 - Space: pause/resume
 - Restart button
+- Submit your score (when the game is over) via the leaderboard panel
+
+## Leaderboard API
+
+- `GET /api/leaderboard`: returns the top 10 scores (JSON array of `{ name, score, timestamp }`).  
+- `POST /api/score`: submit `{ name, score }` (JSON payload) to append your result. The server keeps the top 40 and returns the refreshed top 10.
+
+Scores are stored in `data/leaderboard.json` (created automatically from `data/leaderboard.template.json`). The UI fetches `/api/leaderboard` on load and after each submit; failures are silently ignored so you can still run the front-end as a static preview.
 
 ## Deployment logging
 
-`deploy-info.json` records the commit hash, message, and timestamp for each deploy. The `vercel-build` hook (`node scripts/update-deploy-info.mjs`) refreshes it for every Vercel deployment, and the game fetches that file on load to show the active version details.
-
-For local experiments you can rerun `node scripts/update-deploy-info.mjs` before starting the dev server so the UI reflects your latest commit info.
+`public/deploy-info.json` records the commit hash, message, and timestamp for every production build. Run `node scripts/update-deploy-info.mjs` before `npm start` when testing locally, or rely on the `vercel-build` hook (still configured) to refresh it during automated deployments.

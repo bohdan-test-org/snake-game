@@ -2,7 +2,7 @@ import { execSync } from "node:child_process";
 import { writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
-const infoPath = resolve("deploy-info.json");
+const infoPath = resolve("public", "deploy-info.json");
 
 const commit = execSync("git rev-parse --short HEAD").toString().trim();
 const timestamp = new Date().toISOString();

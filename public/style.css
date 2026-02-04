@@ -119,6 +119,53 @@ button:active {
   font-style: italic;
 }
 
+.leaderboard-panel {
+  margin-top: 20px;
+  text-align: left;
+  border-top: 1px solid var(--grid);
+  padding-top: 18px;
+}
+
+.leaderboard-panel h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  letter-spacing: 0.5px;
+}
+
+.leaderboard-panel form {
+  margin-bottom: 6px;
+}
+
+.leaderboard-panel .form-row {
+  display: flex;
+  gap: 8px;
+}
+
+.leaderboard-panel input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid var(--grid);
+  font-size: 13px;
+}
+
+.leaderboard-list {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+}
+
+.leaderboard-list li {
+  font-size: 13px;
+  padding: 6px 8px;
+  border: 1px dashed var(--grid);
+  border-radius: 4px;
+  background: #fff;
+}
+
 @media (max-width: 640px) {
   .header {
     flex-direction: column;

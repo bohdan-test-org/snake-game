@@ -34,6 +34,28 @@
 
       <p class="hint">Use arrow keys or WASD. Space to pause.</p>
       <p id="status" class="status" aria-live="polite"></p>
+
+      <section class="leaderboard-panel">
+        <h2>Leaderboard</h2>
+        <form id="leaderboard-form">
+          <label for="player-name">Save your score</label>
+          <div class="form-row">
+            <input
+              id="player-name"
+              name="player-name"
+              type="text"
+              maxlength="16"
+              placeholder="Your name"
+              required
+            />
+            <button type="submit">Submit</button>
+          </div>
+        </form>
+        <p id="leaderboard-feedback" class="hint"></p>
+        <ul id="leaderboard-list" class="leaderboard-list">
+          <li>Loading leaderboard...</li>
+        </ul>
+      </section>
     </main>
 
     <script type="module" src="game.js"></script>
