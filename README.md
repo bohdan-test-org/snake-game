@@ -1,4 +1,4 @@
-# Classic Snake
+# Classic Snake 
 
 A minimal, classic Snake implementation: grid movement, food, growth, score, game-over, restart.
 
