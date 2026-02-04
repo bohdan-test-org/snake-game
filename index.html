@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Classic Snake</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="header">
+        <h1>Snake</h1>
+        <div class="scoreboard">
+          <span>Score</span>
+          <span id="score">0</span>
+        </div>
+      </header>
+
+      <canvas id="board" width="400" height="400" aria-label="Snake board" role="img"></canvas>
+
+      <div class="controls">
+        <button id="restart" type="button">Restart</button>
+        <button id="pause" type="button">Pause</button>
+      </div>
+
+      <div class="dpad" aria-label="On screen controls">
+        <button data-dir="up" type="button">▲</button>
+        <div class="dpad-row">
+          <button data-dir="left" type="button">◀</button>
+          <button data-dir="down" type="button">▼</button>
+          <button data-dir="right" type="button">▶</button>
+        </div>
+      </div>
+
+      <p class="hint">Use arrow keys or WASD. Space to pause.</p>
+      <p id="status" class="status" aria-live="polite"></p>
+    </main>
+
+    <script type="module" src="game.js"></script>
+  </body>
+</html>
