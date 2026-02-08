@@ -1,5 +1,4 @@
 .DS_Store
 node_modules/
 public/deploy-info.json
-data/leaderboard.json
 .vercel/

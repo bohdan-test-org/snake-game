@@ -4,10 +4,9 @@
   "version": "0.2.0",
   "type": "module",
   "scripts": {
-    "vercel-build": "node scripts/update-deploy-info.mjs",
-    "start": "node server.js"
+    "vercel-build": "node scripts/update-deploy-info.mjs"
   },
   "dependencies": {
-    "express": "^4.19.2"
+    "@neondatabase/serverless": "^1.0.2"
   }
 }
